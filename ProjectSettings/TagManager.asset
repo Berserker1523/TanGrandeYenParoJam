@@ -3,12 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Terrain
+  - Projectil
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - WorldMap
   - Water
   - UI
   - 
