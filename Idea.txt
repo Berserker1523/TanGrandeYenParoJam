@@ -1,0 +1,13 @@
+Cada personaje rojo empieza en un lugar distinto, deben juntrase y bloquear las vias para que salgan los personajes azules, si no lo hacen entonces no pasara nada. Puede que para bloquear la via, 2 personajes deban quedarse parados y ya no podran moverse mas. Esto me da la idea, es dificil tener 30 jugadores en una partida, pero puede que haya 2 o 4 que puedan controlar varios personajes al tiempo como en el Age, o que solo puedan controlar uno al tiempo pero que lo puedan ir cambiando.
+
+Los personajes azules pueden disparar cuando quieran
+Los personajes rojos solo pueden moverse
+
+Si los azules disparan, hacen instakill al que le peguen, luego se les desbloquea la posibilidad de tirar piedras a los rojos, pero solo pueden tirar 1 piedra por disparo de los azules, y ahora los azules no pueden disparar a menos que les tiren piedras
+
+Luego del primer disparo que hace instakill, los otros disparos de los azules hacen media vida de daño, puede ser un disparo lento que caiga a los 2 seg como una bomba lacrimogena y haga daño en area
+
+Los disparos de los rojos hacen 1/8 de vida de daño.
+
+El truco del juego es que si los azules matan a todos se pierde, y si pasa al contrario tambien, la unica forma de ganar es que tanto los rojos como los azules ambos disparen a la casa del cerdo, o que ninguno mate a nadie y todos lleguen a la casa del cerdo
+
