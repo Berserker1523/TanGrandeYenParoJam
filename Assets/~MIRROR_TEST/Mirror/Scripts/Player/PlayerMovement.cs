@@ -25,7 +25,7 @@ namespace MultiplayerMirror {
                 RaycastHit tempHit;
                 Ray tempRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(tempRay, out tempHit, 100, LayerMask.GetMask("WorldMap"))) {
+                if (Physics.Raycast(tempRay, out tempHit, 1000, LayerMask.GetMask("WorldMap"))) {
                     CmdScrPlayerSetDestination(tempHit.point);
                 }
             }

@@ -8,12 +8,12 @@ public class Tank : CombatScript
     private Proyectile canonBallPrefab;
     [SerializeField]
     private Transform canon;
-    protected override void Attack()
-    {
-        transform.LookAt(target.transform.position);
-        var cb = Instantiate(canonBallPrefab, canon.transform.position, canon.transform.rotation);
-        cb.faction = entity.faction;
-        cb.proyectileRigidbody.velocity = cb.transform.forward * 10;
-    }
+    // protected override void Attack()
+    // {
+    //     transform.LookAt(target.transform.position);
+    //     var cb = Instantiate(canonBallPrefab, canon.transform.position, canon.transform.rotation);
+    //     cb.faction = entity.faction;
+    //     cb.proyectileRigidbody.velocity = cb.transform.forward * 10;
+    // }
 
 }

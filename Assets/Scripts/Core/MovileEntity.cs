@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MovileEntity : MonoBehaviour
+public class MovileEntity : NetworkBehaviour
 {
     public bool isSelected;
     public GameObject selectionSphere;
@@ -13,7 +14,7 @@ public class MovileEntity : MonoBehaviour
         get { return Target; }
         set {
             Target = value;
-            nv.SetDestination(Target);
+            CmdScrPlayerSetDestination(Target);
         }
     }
 
@@ -30,6 +31,9 @@ public class MovileEntity : MonoBehaviour
 
     void Update()
     {
+        if (!hasAuthority) {
+            return;
+        }
         if (!entity.isSelectable)
             return;
         if (isSelected)
@@ -59,5 +63,18 @@ public class MovileEntity : MonoBehaviour
             isSelected = UnitSelecter.rect.Contains(pos, true);
             selectionSphere.SetActive(isSelected);
         }
+    }
+
+    [Command]
+    public void CmdScrPlayerSetDestination(Vector3 argPosition)
+    {
+        nv.SetDestination(argPosition);
+        RpcScrPlayerSetDestination(argPosition);    
+    }
+
+    [ClientRpc]
+    public void RpcScrPlayerSetDestination(Vector3 argPosition)
+    {
+        nv.SetDestination(argPosition);
     }
 }
