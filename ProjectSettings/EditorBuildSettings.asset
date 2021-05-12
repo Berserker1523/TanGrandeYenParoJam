@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/z.MIRROR_TEST/Mirror/Scenes/Lobby.unity
+    path: Assets/~MIRROR_TEST/Mirror/Scenes/Lobby.unity
     guid: 870d9fa2a70393a41ae4cbfac1b6c1f6
   - enabled: 1
-    path: Assets/z.MIRROR_TEST/Mirror/Scenes/GameplayMultiplayerMirror.unity
-    guid: 403ca0ec9237f96469f560c5b2a856b6
+    path: Assets/Scenes/Main.unity
+    guid: aa6ac54b231bca346acac0b5d12717b5
   m_configObjects: {}

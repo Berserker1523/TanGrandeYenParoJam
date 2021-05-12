@@ -26,7 +26,7 @@ namespace MultiplayerMirror {
 
 #region Server
         public override void OnStartServer() {
-            spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs").ToList();
+            spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabsRTS").ToList();
         }
         
         public override void OnServerConnect(NetworkConnection conn) {
@@ -72,7 +72,7 @@ namespace MultiplayerMirror {
 #region Client
 
         public override void OnStartClient() {
-            var spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabs");
+            var spawnPrefabs = Resources.LoadAll<GameObject>("SpawnablePrefabsRTS");
 
             foreach (var prefab in spawnPrefabs) {
                 NetworkClient.RegisterPrefab(prefab);
@@ -116,12 +116,12 @@ namespace MultiplayerMirror {
                 if (!IsReadyToStart())
                     return;
 
-                ServerChangeScene("GameplayMultiplayerMirror");
+                ServerChangeScene("Main");
             }
         }
 
         public override void ServerChangeScene(string newSceneName) {
-            if (SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("GameplayMultiplayerMirror")) {
+            if (SceneManager.GetActiveScene().path == menuScene && newSceneName.StartsWith("Main")) {
                 for (int i = RoomPlayers.Count-1; i >= 0; i--) {
                     var conn = RoomPlayers[i].connectionToClient;
                     var gameplayerInstance = Instantiate(networkGamePlayerPrefab);
@@ -136,7 +136,7 @@ namespace MultiplayerMirror {
         }
 
         public override void OnServerSceneChanged(string sceneName) {
-            if(sceneName.StartsWith("GameplayMultiplayerMirror")){
+            if(sceneName.StartsWith("Main")){
                 GameObject playerSpawnSystemInstance = Instantiate(playerSpawnSystem);
                 NetworkServer.Spawn(playerSpawnSystemInstance);
             } 
