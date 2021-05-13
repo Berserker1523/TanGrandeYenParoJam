@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/~MIRROR_TEST/Mirror/Scenes/Lobby.unity
+    path: Assets/Scenes/Lobby.unity
     guid: 870d9fa2a70393a41ae4cbfac1b6c1f6
   - enabled: 1
     path: Assets/Scenes/Main.unity

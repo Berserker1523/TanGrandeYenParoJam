@@ -9,7 +9,7 @@ namespace MultiplayerMirror
 {
     public class PlayerSpawnSystem : NetworkBehaviour
     {
-        [SerializeField] private GameObject playerPrefab = null;
+        [SerializeField] private GameObject[] playerPrefabs = null;
 
         private static List<Transform> spawnPoints = new List<Transform>();
 
@@ -43,10 +43,17 @@ namespace MultiplayerMirror
                 return;
             }
 
-            GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
-            NetworkServer.Spawn(playerInstance,conn);
+            FactionType currentFactionType = FactionType.faction_1;
+            foreach (GameObject playerEntity in playerPrefabs)
+            {
+                GameObject playerInstance = Instantiate(playerEntity ,playerEntity.transform.position + spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
+                playerInstance.GetComponent<RtsEntity>().faction = currentFactionType;
+                NetworkServer.Spawn(playerInstance,conn);
+            }
+
 
             nextIndex++;
+            currentFactionType = FactionType.faction_2;
         }
     }
 }

@@ -1,9 +1,8 @@
 {
-    "name": "MultiplayerMirror",
-    "rootNamespace": "MultiplayerMirror",
+    "name": "SpecificScript",
+    "rootNamespace": "SpecificScript",
     "references": [
-        "GUID:30817c1a0e6d646d99c048fc403f5979",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:f6292ddf91494484c9632481820ea24e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
