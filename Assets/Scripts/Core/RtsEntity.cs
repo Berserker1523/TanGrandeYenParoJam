@@ -1,20 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public enum FactionType { faction_1, faction_2 }
-
-public class RtsEntity : MonoBehaviour
+public enum FactionType { faction_1=0, faction_2=1 }
+public class RtsEntity : NetworkBehaviour 
 {
     public string entityName;
     public int maxHealth;
     public int health;
+
+        
+    [SyncVar(hook="factionChange")]
     public FactionType faction;
+    private void factionChange(FactionType oldValue, FactionType newValue)
+    {
+        faction = newValue;
+        SetColor();
+    }
+
     public bool isSelectable = true;
 
     public Renderer[] renderers;    
 
-    void Start()
+    public void Start()
     {
         SetColor();
     }

@@ -12,20 +12,12 @@ namespace MultiplayerMirror
         [SerializeField] private GameObject[] playerPrefabs = null;
 
         private static List<Transform> spawnPoints = new List<Transform>();
-        [SyncVar(hook="factionChange")]
-        private FactionType currentFactionType = FactionType.faction_1;
-
-        private void factionChange(FactionType oldValue, FactionType newValue)
-        {
-            //syncTarget = value;
-            currentFactionType = newValue;
-        }
- 
+        private static List<FactionType> factions = new List<FactionType>();
         private int nextIndex = 0;
 
         public static void AddSpawnPoint(Transform transform){
             spawnPoints.Add(transform);
-
+            
             spawnPoints = spawnPoints.OrderBy(x => x.GetSiblingIndex()).ToList();
         }
 
@@ -54,13 +46,11 @@ namespace MultiplayerMirror
             foreach (GameObject playerEntity in playerPrefabs)
             {
                 GameObject playerInstance = Instantiate(playerEntity ,playerEntity.transform.position + spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
-                playerInstance.GetComponent<RtsEntity>().faction = currentFactionType;
+                playerInstance.GetComponent<RtsEntity>().faction = (FactionType)nextIndex;
                 NetworkServer.Spawn(playerInstance,conn);
             }
-
-
+            
             nextIndex++;
-            currentFactionType = FactionType.faction_2;
         }
     }
 }
