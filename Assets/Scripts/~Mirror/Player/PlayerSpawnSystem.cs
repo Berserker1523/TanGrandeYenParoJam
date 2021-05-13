@@ -12,7 +12,15 @@ namespace MultiplayerMirror
         [SerializeField] private GameObject[] playerPrefabs = null;
 
         private static List<Transform> spawnPoints = new List<Transform>();
+        [SyncVar(hook="factionChange")]
+        private FactionType currentFactionType = FactionType.faction_1;
 
+        private void factionChange(FactionType oldValue, FactionType newValue)
+        {
+            //syncTarget = value;
+            currentFactionType = newValue;
+        }
+ 
         private int nextIndex = 0;
 
         public static void AddSpawnPoint(Transform transform){
@@ -43,7 +51,6 @@ namespace MultiplayerMirror
                 return;
             }
 
-            FactionType currentFactionType = FactionType.faction_1;
             foreach (GameObject playerEntity in playerPrefabs)
             {
                 GameObject playerInstance = Instantiate(playerEntity ,playerEntity.transform.position + spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
