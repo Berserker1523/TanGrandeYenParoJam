@@ -13,7 +13,6 @@ namespace MultiplayerMirror
         [SerializeField] private NetworkManagerLobby networkManager = null;
         private const string URLFIREBASE = "https://tangrandeyenparojam-default-rtdb.firebaseio.com/Lobbies/";
         List<string[]> lobbies = new List<string[]>();
-        List<string> lobbieHeader = new List<string>();
         [SerializeField]private GameObject gameRoomPrefab;
         [SerializeField] private GameObject landingPagePanel = null;
         private CanvasGroup canvaGroup;
@@ -50,7 +49,6 @@ namespace MultiplayerMirror
         }
 
         public void OnFinishGettingLobbies(){
-            int i = 0;
             foreach (string[] lobby in lobbies)
             {
                 GameObject gameRoom = Instantiate(gameRoomPrefab,this.transform);
@@ -62,12 +60,10 @@ namespace MultiplayerMirror
                     if(string.IsNullOrEmpty(ipAddress))
                         ipAddress = "localhost";
                     networkManager.networkAddress = ipAddress;
-                    networkManager.serverRoomName = lobbieHeader[i];
                     networkManager.StartClient();
 
                    canvaGroup.interactable = false;
                 });
-                i++;
             }
         }
 

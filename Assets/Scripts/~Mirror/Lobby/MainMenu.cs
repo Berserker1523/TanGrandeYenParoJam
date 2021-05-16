@@ -36,10 +36,10 @@ namespace MultiplayerMirror {
 
 
         public void CreateLobby(string ipAddress, string password) {
-            StartCoroutine(UnityRequestSingUp(ipAddress,password));
+            StartCoroutine(UnityRequestRegisterGameRoom(ipAddress,password));
         }
 
-        IEnumerator UnityRequestSingUp(string ipAddress, string password) {
+        IEnumerator UnityRequestRegisterGameRoom(string ipAddress, string password) {
 
             string dq = ('"' + "");
             string bodyJsonString = "{" + dq + "name" + dq + ":" + dq + ("newRoom" + Random.Range(0,10)) + dq + ","+ dq + "ipAddress" + dq + ":" + dq + (ipAddress) + dq + "," + dq + "password" + dq + ":" + dq + (password) + dq + "}";
