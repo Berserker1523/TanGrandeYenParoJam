@@ -44,7 +44,7 @@ namespace MultiplayerMirror
             }
 
             GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
-            NetworkServer.Spawn(playerInstance,conn);
+            NetworkServer.Spawn(playerInstance, conn);
 
             nextIndex++;
         }
