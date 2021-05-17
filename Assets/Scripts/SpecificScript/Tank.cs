@@ -11,15 +11,25 @@ public class Tank : CombatScript
     [ClientRpc]
     protected override void RpcAttack()
     {
-        Attack();
+        CmdInstantiateCannonball();
     }
 
-    private void Attack()
+    [Command]
+    protected void CmdInstantiateCannonball() 
     {
-        transform.LookAt(target.transform.position);
         var cb = Instantiate(canonBallPrefab, canon.transform.position, canon.transform.rotation);
+        NetworkServer.Spawn(cb.gameObject);
         cb.faction = GetComponent<RtsEntity>().faction;
-        cb.proyectileRigidbody.velocity = cb.transform.forward * 10;
+        RpcLookAtEnemy(cb.gameObject);
     }
+
+    [ClientRpc]
+    private void RpcLookAtEnemy(GameObject cbGO)
+    {
+        Proyectile cb = cbGO.GetComponent<Proyectile>();
+        cb.proyectileRigidbody.velocity = cb.transform.forward * 10;
+        transform.LookAt(target.transform.position);
+    }
+    
 
 }
