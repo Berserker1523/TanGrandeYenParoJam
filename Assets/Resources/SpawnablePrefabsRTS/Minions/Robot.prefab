@@ -205,7 +205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727121040665104}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 25}
+  m_LocalPosition: {x: 10, y: 0, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4743980436195492}
@@ -225,6 +225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0e30a832c70b14588d64fd9e6afd6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   entityName: Robot
   maxHealth: 100
   health: 100
@@ -296,7 +298,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded7eaccc8ee980489f9ec81219bdb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 0
-  cadence: 0
+  syncMode: 0
+  syncInterval: 0.1
+  range: 15
+  cadence: 5
   targetCanBeAlly: 0
-  Damage: 5
+  Damage: 50

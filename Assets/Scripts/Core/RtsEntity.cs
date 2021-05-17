@@ -54,18 +54,15 @@ public class RtsEntity : NetworkBehaviour {
     }
 
     public void CheckHealth() {
-        Debug.Log("CheckHealth");
         if (health > maxHealth)
             health = maxHealth;
         if (health <= 0) {
-            Debug.Log("Destroy TANK!!!");
             RpcDestroyObject(gameObject);
         }
     }
 
     [ClientRpc]
     protected virtual void RpcDestroyObject(GameObject gameObject) {
-        Debug.Log("Destroy GameObject: " + gameObject.name);
         Destroy(gameObject);
     }
 
