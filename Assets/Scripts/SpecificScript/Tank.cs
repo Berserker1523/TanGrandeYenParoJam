@@ -8,13 +8,6 @@ public class Tank : CombatScript
     [SerializeField]
     private Transform canon;
 
-    [Command]
-    protected override void CmdAttack()
-    {
-        Attack();
-        base.CmdAttack();
-    }
-
     [ClientRpc]
     protected override void RpcAttack()
     {
@@ -23,10 +16,9 @@ public class Tank : CombatScript
 
     private void Attack()
     {
-        Debug.Log(target);
         transform.LookAt(target.transform.position);
         var cb = Instantiate(canonBallPrefab, canon.transform.position, canon.transform.rotation);
-        cb.faction = hasAuthority? FactionType.faction_1 : FactionType.faction_2;
+        cb.faction = GetComponent<RtsEntity>().faction;
         cb.proyectileRigidbody.velocity = cb.transform.forward * 10;
     }
 

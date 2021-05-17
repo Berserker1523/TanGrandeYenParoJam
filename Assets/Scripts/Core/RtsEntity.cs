@@ -34,30 +34,30 @@ public class RtsEntity : NetworkBehaviour
         }
     }
 
-     void OnTriggerEnter(Collider col)
-     {
-         if (col.GetComponent<Proyectile>() != null)
-         {
-             var pro = col.GetComponent<Proyectile>();
-             if (pro.faction != faction)
-             {
-                health -= pro.damage;
-                CheckHealth();
-                Debug.Log("Recibio Bala");
-                Destroy(pro.gameObject);
-             }
-         }
-     }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.GetComponent<Proyectile>() != null)
+        {
+            var pro = col.GetComponent<Proyectile>();
+            if (pro.faction != faction)
+            {
+            health -= pro.damage;
+            CheckHealth();
+            Debug.Log("Recibio Bala");
+            Destroy(pro.gameObject);
+            }
+        }
+    }
 
-     public void CheckHealth()
-     {
-         if (health > maxHealth)
-             health = maxHealth;
-         if (health <= 0)
-         {
-            Debug.Log("Destruido");
-            Destroy(gameObject);
-         }
-     }
+    public void CheckHealth()
+    {
+        if (health > maxHealth)
+            health = maxHealth;
+        if (health <= 0)
+        {
+        Debug.Log("Destruido");
+        Destroy(gameObject);
+        }
+    }
 
 }
