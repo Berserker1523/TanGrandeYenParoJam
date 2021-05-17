@@ -2,7 +2,8 @@
     "name": "SpecificScript",
     "rootNamespace": "SpecificScript",
     "references": [
-        "GUID:f6292ddf91494484c9632481820ea24e"
+        "GUID:f6292ddf91494484c9632481820ea24e",
+        "GUID:30817c1a0e6d646d99c048fc403f5979"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -44,6 +44,7 @@ namespace MultiplayerMirror {
         
         public override void OnServerAddPlayer(NetworkConnection conn) {
             if (SceneManager.GetActiveScene().path == menuScene) {
+                Debug.Log("OnServerAddPlayerRoom");
                 bool isLeader = RoomPlayers.Count == 0;
 
                 NetworkRoomPlayerLobby roomPlayerInstance = Instantiate(roomPlayerPrefab);

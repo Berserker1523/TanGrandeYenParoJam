@@ -24,7 +24,6 @@ public class RtsEntity : NetworkBehaviour
 
     public void Start()
     {
-        faction = hasAuthority ? FactionType.faction_1 : FactionType.faction_2;
         SetColor();
     }
     public void SetColor()

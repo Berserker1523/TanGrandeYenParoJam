@@ -12,7 +12,7 @@ public class Tank : CombatScript
     protected override void CmdAttack()
     {
         Attack();
-        RpcAttack();
+        base.CmdAttack();
     }
 
     [ClientRpc]
