@@ -258,9 +258,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0e30a832c70b14588d64fd9e6afd6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   entityName: TANK
-  maxHealth: 500
-  health: 500
+  maxHealth: 100
+  health: 100
   faction: 0
   isSelectable: 1
   renderers:
@@ -329,7 +331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f5b3bebb827e0a41ba3ca6aefa77199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 15
+  syncMode: 0
+  syncInterval: 0.1
+  range: 30
   cadence: 5
   targetCanBeAlly: 0
   canonBallPrefab: {fileID: 114563913995766268, guid: b5aafecf9bbb026479c11399ba1d6b43, type: 3}

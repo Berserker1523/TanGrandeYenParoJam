@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -68,7 +66,7 @@ public class MovileEntity : NetworkBehaviour
     [Command]
     public void CmdScrPlayerSetDestination(Vector3 argPosition)
     {
-        nv.SetDestination(argPosition);
+        //nv.SetDestination(argPosition);
         RpcScrPlayerSetDestination(argPosition);    
     }
 
