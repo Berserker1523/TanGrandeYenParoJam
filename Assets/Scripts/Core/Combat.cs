@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Mirror;
 
-public class CombatScript : MonoBehaviour
+public class CombatScript : NetworkBehaviour
 {
     [SerializeField] private float range;
     [SerializeField] private float cadence;
@@ -30,7 +31,7 @@ public class CombatScript : MonoBehaviour
         {
             var cs = rh.collider.GetComponent<RtsEntity>();
             if (cs.faction != entity.faction || targetCanBeAlly)
-                target = cs;
+                CmdSetTarget(cs);
             else
                 target = null;
         }
@@ -42,6 +43,9 @@ public class CombatScript : MonoBehaviour
 
     void PrepareToAttack()
     {
+        if (!hasAuthority)
+            return;
+
         if (target == null)
             return;
         if (Vector3.Distance(transform.position, target.transform.position) > range)
@@ -49,8 +53,29 @@ public class CombatScript : MonoBehaviour
             movileEntity.target = target.transform.position;
             return;
         }
-        Attack();
+        CmdAttack();
     }
 
-    protected virtual void Attack() { }
+    [Command]
+    void CmdSetTarget(RtsEntity cs)
+    {
+        target = cs;
+        RpcSetTarget(cs);
+    }
+
+    [ClientRpc]
+    void RpcSetTarget(RtsEntity cs) 
+    {
+        target = cs;
+    }
+
+    [Command]
+    protected virtual void CmdAttack() 
+    {
+        RpcAttack();
+    }
+
+    [ClientRpc]
+    protected virtual void RpcAttack() { }
+
 }
