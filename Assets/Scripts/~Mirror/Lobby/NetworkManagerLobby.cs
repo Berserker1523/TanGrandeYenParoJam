@@ -5,6 +5,7 @@ using Mirror;
 using System;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 namespace MultiplayerMirror {
     public class NetworkManagerLobby : NetworkManager {
@@ -23,6 +24,7 @@ namespace MultiplayerMirror {
         public static Action OnClientConnected;
         public static Action OnClientDisconnected;
         public static Action<NetworkConnection> OnServerReadied;
+        public string serverRoomName = "nullPointer";
 
 #region Server
         public override void OnStartServer() {
@@ -42,6 +44,7 @@ namespace MultiplayerMirror {
         
         public override void OnServerAddPlayer(NetworkConnection conn) {
             if (SceneManager.GetActiveScene().path == menuScene) {
+                Debug.Log("OnServerAddPlayerRoom");
                 bool isLeader = RoomPlayers.Count == 0;
 
                 NetworkRoomPlayerLobby roomPlayerInstance = Instantiate(roomPlayerPrefab);
@@ -66,6 +69,13 @@ namespace MultiplayerMirror {
         public override void OnStopServer() {
             RoomPlayers.Clear();
             GamePlayers.Clear();
+            StartCoroutine(deleteRoomFromFirebase());
+        }
+
+        IEnumerator deleteRoomFromFirebase(){
+            var request = new UnityWebRequest("https://tangrandeyenparojam-default-rtdb.firebaseio.com/Lobbies/" + serverRoomName + ".json", "DELETE");
+            request.SetRequestHeader("Content-Type", "application/json");
+            yield return request.SendWebRequest();
         }
 #endregion
 

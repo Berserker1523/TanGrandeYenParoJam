@@ -9,15 +9,15 @@ namespace MultiplayerMirror
 {
     public class PlayerSpawnSystem : NetworkBehaviour
     {
-        [SerializeField] private GameObject playerPrefab = null;
+        [SerializeField] private GameObject[] playerPrefabs = null;
 
         private static List<Transform> spawnPoints = new List<Transform>();
-
+        private static List<FactionType> factions = new List<FactionType>();
         private int nextIndex = 0;
 
         public static void AddSpawnPoint(Transform transform){
             spawnPoints.Add(transform);
-
+            
             spawnPoints = spawnPoints.OrderBy(x => x.GetSiblingIndex()).ToList();
         }
 
@@ -43,9 +43,13 @@ namespace MultiplayerMirror
                 return;
             }
 
-            GameObject playerInstance = Instantiate(playerPrefab, spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
-            NetworkServer.Spawn(playerInstance, conn);
-
+            foreach (GameObject playerEntity in playerPrefabs)
+            {
+                GameObject playerInstance = Instantiate(playerEntity ,playerEntity.transform.position + spawnPoints[nextIndex].position,spawnPoints[nextIndex].rotation);
+                playerInstance.GetComponent<RtsEntity>().faction = (FactionType)nextIndex;
+                NetworkServer.Spawn(playerInstance,conn);
+            }
+            
             nextIndex++;
         }
     }

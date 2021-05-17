@@ -1,60 +1,69 @@
-﻿using Mirror;
+using System.Collections;
+using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
-public enum FactionType { faction_1, faction_2 }
-
-public class RtsEntity : NetworkBehaviour
-{
+public enum FactionType { faction_1 = 0, faction_2 = 1 }
+public class RtsEntity : NetworkBehaviour {
     public string entityName;
     public int maxHealth;
+
     [SyncVar(hook = "healthChange")]
     public int health;
-    private void healthChange(int oldValue, int newValue)
-    {
+    private void healthChange(int oldValue, int newValue) {
         health = newValue;
     }
+
+    [SyncVar(hook = "factionChange")]
     public FactionType faction;
-    public bool isSelectable = true;
-
-    public Renderer[] renderers;    
-
-    void Start()
-    {
-        faction = hasAuthority ? FactionType.faction_1 : FactionType.faction_2;
+    private void factionChange(FactionType oldValue, FactionType newValue) {
+        faction = newValue;
         SetColor();
     }
-    public void SetColor()
-    {
-        for (int i = 0; i < renderers.Length; i++)
-        {
+
+    public bool isSelectable = true;
+
+    public Renderer[] renderers;
+
+    public void Start() {
+        SetColor();
+    }
+    public void SetColor() {
+        for (int i = 0; i < renderers.Length; i++) {
             renderers[i].material.color = faction == FactionType.faction_1 ? Color.blue : Color.red;
         }
     }
 
-     void OnTriggerEnter(Collider col)
-     {
-         if (col.GetComponent<Proyectile>() != null)
-         {
-             var pro = col.GetComponent<Proyectile>();
-             if (pro.faction != faction)
-             {
-                health -= pro.damage;
-                CheckHealth();
-                Debug.Log("Recibio Bala");
-                Destroy(pro.gameObject);
-             }
-         }
-     }
+    void OnTriggerEnter(Collider col) {
+        if(!hasAuthority)
+            return;
+        if (col.GetComponent<Proyectile>() != null) {
+            Proyectile proyectile = col.GetComponent<Proyectile>();
+            CmdTriggerEnter(col.gameObject);
+        }
+    }
 
-     public void CheckHealth()
-     {
-         if (health > maxHealth)
-             health = maxHealth;
-         if (health <= 0)
-         {
-            Debug.Log("Destruido");
-            Destroy(gameObject);
-         }
-     }
+    [Command]
+    public void CmdTriggerEnter(GameObject proyectileGameObject) {
+        Proyectile proyectile = proyectileGameObject.GetComponent<Proyectile>();
+        if (proyectile.faction != faction) {
+            health -= proyectile.damage;
+            CheckHealth();
+            RpcDestroyObject(proyectile.gameObject);
+        }
+    }
+
+    public void CheckHealth() {
+        if (health > maxHealth)
+            health = maxHealth;
+        if (health <= 0) {
+            RpcDestroyObject(gameObject);
+        }
+    }
+
+    [ClientRpc]
+    protected virtual void RpcDestroyObject(GameObject gameObject) {
+        Destroy(gameObject);
+    }
 
 }

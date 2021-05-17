@@ -12,8 +12,13 @@ public class MovileEntity : NetworkBehaviour
         get { return Target; }
         set {
             Target = value;
-            CmdScrPlayerSetDestination(Target);
+            SetPlayerDestination(Target);
         }
+    }
+
+    public void SetPlayerDestination(Vector3 argPosition)
+    {
+        nv.SetDestination(argPosition);
     }
 
     NavMeshAgent nv;
@@ -39,18 +44,7 @@ public class MovileEntity : NetworkBehaviour
             if (Input.GetMouseButtonUp(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out rh))
-                {
-                    SendMessage("MouseUp", rh, SendMessageOptions.DontRequireReceiver);
-
-                    if (rh.collider != null)
-                    {
-                        if (rh.collider.CompareTag("Terrain"))
-                        {
-                            target = rh.point;
-                        }
-                    }                
-                }
+                CmdScrPlayerSetDestination(ray);
             }
         }
         if (Input.GetMouseButtonUp(0))
@@ -64,10 +58,21 @@ public class MovileEntity : NetworkBehaviour
     }
 
     [Command]
-    public void CmdScrPlayerSetDestination(Vector3 argPosition)
+    public void CmdScrPlayerSetDestination(Ray ray)
     {
-        //nv.SetDestination(argPosition);
-        RpcScrPlayerSetDestination(argPosition);    
+        if (Physics.Raycast(ray, out rh))
+        {
+            SendMessage("MouseUp", rh, SendMessageOptions.DontRequireReceiver);
+
+            if (rh.collider != null)
+            {
+                if (rh.collider.CompareTag("Terrain"))
+                {
+                    target = rh.point;
+                    RpcScrPlayerSetDestination(target);
+                }
+            }                
+        }
     }
 
     [ClientRpc]
@@ -75,4 +80,5 @@ public class MovileEntity : NetworkBehaviour
     {
         nv.SetDestination(argPosition);
     }
+
 }

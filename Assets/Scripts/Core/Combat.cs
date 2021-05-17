@@ -18,6 +18,8 @@ public class CombatScript : NetworkBehaviour
         InvokeRepeating("PrepareToAttack", cadence, cadence);
     }
 
+#region OnMouseUp
+
     void MouseUp(RaycastHit rh)
     {
         if (!entity.isSelectable)
@@ -29,11 +31,8 @@ public class CombatScript : NetworkBehaviour
         }
         if (rh.collider.GetComponent<RtsEntity>() != null)
         {
-            var cs = rh.collider.GetComponent<RtsEntity>();
-            if (cs.faction != entity.faction || targetCanBeAlly)
-                CmdSetTarget(cs);
-            else
-                target = null;
+            RtsEntity targetEntity = rh.collider.GetComponent<RtsEntity>();
+            CmdSetTarget(targetEntity);
         }
         else
         {
@@ -41,26 +40,14 @@ public class CombatScript : NetworkBehaviour
         }
     }
 
-    void PrepareToAttack()
-    {
-        if (!hasAuthority)
-            return;
-
-        if (target == null)
-            return;
-        if (Vector3.Distance(transform.position, target.transform.position) > range)
-        {
-            movileEntity.target = target.transform.position;
-            return;
-        }
-        CmdAttack();
-    }
-
     [Command]
-    void CmdSetTarget(RtsEntity cs)
+    void CmdSetTarget(RtsEntity targetEntity)
     {
-        target = cs;
-        RpcSetTarget(cs);
+        if (targetEntity.faction != entity.faction || targetCanBeAlly){
+            RpcSetTarget(targetEntity);
+        }
+        else
+            target = null;
     }
 
     [ClientRpc]
@@ -69,13 +56,38 @@ public class CombatScript : NetworkBehaviour
         target = cs;
     }
 
+#endregion
+
+#region PrepareAttack
+
+    void PrepareToAttack()
+    {
+        if(!hasAuthority) 
+            return;
+        if (target == null)
+            return;
+        CmdAttack();
+    }
+
+
     [Command]
     protected virtual void CmdAttack() 
     {
+        if (Vector3.Distance(transform.position, target.transform.position) > range)
+        {
+            RpcMove();
+            return;
+        }
         RpcAttack();
+    }
+    
+    [ClientRpc]
+    protected virtual void RpcMove() { 
+        movileEntity.target = target.transform.position;
     }
 
     [ClientRpc]
     protected virtual void RpcAttack() { }
 
+#endregion
 }
