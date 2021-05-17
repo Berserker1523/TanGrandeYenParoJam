@@ -77,6 +77,8 @@ namespace MultiplayerMirror
                     JSONNode data = JSON.Parse(webRequest.downloadHandler.text);
                     
                     foreach (JSONNode lobby in data) {
+                        if(string.IsNullOrEmpty(lobby["name"]))
+                            continue;
                         string[] lobbie = new string[3];
                         lobbie[0] = lobby["name"];
                         lobbie[1] = lobby["ipAddress"];
